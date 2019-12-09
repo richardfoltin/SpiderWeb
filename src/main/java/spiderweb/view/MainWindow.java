@@ -23,6 +23,8 @@ import spiderweb.view.panel.*;
 import spiderweb.view.constant.SpiderFont;
 import spiderweb.view.constant.SpiderColor;
 import spiderweb.model.SpiderWebModel;
+import spiderweb.view.dialog.DialogAddAlliance;
+import spiderweb.view.dialog.DialogAddCharacter;
 import spiderweb.view.dialog.DialogAddHouse;
 
 /**
@@ -152,7 +154,13 @@ public class MainWindow extends JFrame {
     }
     
     public void addCharacter() {
-        DialogAddHouse dialog = new DialogAddHouse(this);
+        DialogAddCharacter dialog = new DialogAddCharacter(this);
+        dialog.showDialog();
+    }
+    
+    public void addAlliance(House house) {
+        DialogAddAlliance dialog = new DialogAddAlliance(this);
+        if (house != null) dialog.setInitialHouse(house);
         dialog.showDialog();
     }
     

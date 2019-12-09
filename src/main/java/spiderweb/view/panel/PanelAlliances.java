@@ -39,7 +39,11 @@ public class PanelAlliances extends SpiderTablePanel {
     @Override
     protected ActionListener actionAction() {
         return (ActionEvent e) -> {
-            MainWindow.getInstance().showHouses();
+            try {
+                int allianceID = table.getSelectedId();
+            } catch (Exception ex) {
+                MainWindow.getInstance().infoMessage("Alliance is not selected.");
+            }
         };
     }
 }

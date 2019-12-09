@@ -14,12 +14,17 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import spiderweb.entity.House;
+import spiderweb.jdbcdao.dbexception.SpiderReadException;
 import spiderweb.view.MainWindow;
 import spiderweb.view.constant.SpiderFont;
 
@@ -67,6 +72,7 @@ public abstract class SpiderDialog extends JDialog {
         setResizable(false);
     }
     
+    
     protected abstract void fillMainPanel();
     protected abstract void fillBottomPanel();
     
@@ -92,6 +98,49 @@ public abstract class SpiderDialog extends JDialog {
             setFont(SpiderFont.DIALOG);
             setPreferredSize(new Dimension(FIELD_WIDTH,GRID_HEIGHT));
         }
+    }
+    
+    protected class SpiderHouseList extends JComboBox{
+
+        private final ArrayList<Integer> houseID = new ArrayList();
+        private final ArrayList<String> houseNames = new ArrayList();
+        private final boolean withNoHouse;
+        
+        public SpiderHouseList(MainWindow window, boolean withNoHouse) throws SpiderReadException {
+            this.withNoHouse = withNoHouse;
+            List<House> houses = window.getModel().getAllHouse();
+
+            if (withNoHouse) {
+                houseNames.add("No House");
+                addItem("No House");
+                houseID.add(-1);
+            }
+
+            if (houses != null){
+                for (House house : houses){
+                    houseNames.add(house.getName());
+                    addItem(house.getName());
+                    houseID.add(house.getId());
+                }
+            }
+            
+            setPreferredSize(new Dimension(FIELD_WIDTH,GRID_HEIGHT));
+        }
+
+        public void selectHouse(House house) {
+            int i;
+            for (i = 0; i < houseID.size(); i++) {
+                if (house.getId().intValue() == houseID.get(i)) break;
+            }
+            setSelectedIndex(i);
+        }
+        
+        public House getSelectedHouse() {
+            int selectedHouse = getSelectedIndex();
+            if (withNoHouse && selectedHouse == 0) return null;
+            return new House(houseNames.get(selectedHouse), houseID.get(selectedHouse));
+        }
+
     }
     
 }

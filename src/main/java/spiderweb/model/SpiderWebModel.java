@@ -5,6 +5,7 @@
  */
 package spiderweb.model;
 
+import java.net.URL;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.List;
@@ -34,8 +35,14 @@ public class SpiderWebModel {
         this.allianceDao = new JDBCAllianceDao();
     }
     
-    public House addNewHouse(String name, String motto, String crestFileName) throws SpiderImageException, SpiderWriteException {
-        House house = new House(name, motto, Resource.getBytes(crestFileName));
+    public House addNewHouse(String name, String motto, URL url) throws SpiderImageException, SpiderWriteException {
+        House house = new House(name, motto, Resource.getBytes(url));
+        houseDao.save(house);
+        return house;
+    }
+    
+    public House addNewHouse(String name, String motto, String crestFileNameInResource) throws SpiderImageException, SpiderWriteException {
+        House house = new House(name, motto, Resource.getBytesFromResource(crestFileNameInResource));
         houseDao.save(house);
         return house;
     }

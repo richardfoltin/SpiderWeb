@@ -38,7 +38,11 @@ public class PanelHouses extends SpiderTablePanel {
     @Override
     protected ActionListener actionAction() {
         return (ActionEvent e) -> {
-            MainWindow.getInstance().findHouse(table.getSelectedId());
+            try {
+                MainWindow.getInstance().findHouse(table.getSelectedId());
+            } catch (Exception ex) {
+                MainWindow.getInstance().infoMessage("House is not selected.");
+            }
         };
     }
     

@@ -39,7 +39,11 @@ public class PanelCharacters extends SpiderTablePanel {
     @Override
     protected ActionListener actionAction() {
         return (ActionEvent e) -> {
-            MainWindow.getInstance().findCharacter(table.getSelectedId());
+            try {
+                MainWindow.getInstance().findCharacter(table.getSelectedId());
+            } catch (Exception ex) {
+                MainWindow.getInstance().infoMessage("Character is not selected.");
+            }
         };
     }
 }

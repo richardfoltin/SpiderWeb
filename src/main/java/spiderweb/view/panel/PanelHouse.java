@@ -40,9 +40,12 @@ public class PanelHouse extends SpiderActionPanel {
     
     private SpiderTable charactersTable;
     private SpiderTable alliancesTable;
+    private House house;
     
     public PanelHouse(House house) {
         super(house.getName(), "Add Alliance");
+        
+        this.house = house;
         
         try {
             charactersTable = new TableHouseCharacters(house);
@@ -95,6 +98,7 @@ public class PanelHouse extends SpiderActionPanel {
     @Override
     protected ActionListener actionAction() {
         return (ActionEvent e) -> {
+            MainWindow.getInstance().addAlliance(house);
         };
     }
 }
