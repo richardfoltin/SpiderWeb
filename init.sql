@@ -1,0 +1,22 @@
+CREATE TABLE "ROOT"."house"(
+	house_id BIGINT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), 
+	house_name VARCHAR(80) NOT NULL, 
+	house_crest BLOB,
+    motto VARCHAR(255)
+);
+
+CREATE TABLE "ROOT"."character"(
+	character_id BIGINT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), 
+	character_name VARCHAR(80) NOT NULL, 
+	army_size BIGINT,
+	status BOOLEAN,
+    house_id BIGINT REFERENCES "ROOT"."house"(house_id)
+);
+
+CREATE TABLE "ROOT"."alliance"(
+	alliance_id BIGINT NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), 
+	house1 BIGINT NOT NULL REFERENCES "ROOT"."house"(house_id),        
+	house2 BIGINT NOT NULL REFERENCES "ROOT"."house"(house_id),
+	start_date DATE NOT NULL,
+	end_date DATE
+);
