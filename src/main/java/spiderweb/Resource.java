@@ -7,14 +7,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.sql.rowset.serial.SerialBlob;
 import javax.swing.ImageIcon;
 import spiderweb.jdbcdao.dbexception.SpiderImageException;
 

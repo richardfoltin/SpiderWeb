@@ -10,9 +10,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import spiderweb.Resource;
+import spiderweb.entity.House;
+import spiderweb.entity.Character;
+import spiderweb.jdbcdao.dbexception.SpiderImageException;
 import spiderweb.view.MainWindow;
+import static spiderweb.view.MainWindow.WINDOW_HEIGHT;
+import static spiderweb.view.MainWindow.WINDOW_WIDTH;
 import spiderweb.view.button.SpiderBigButton;
 import spiderweb.view.button.SpiderSmallButton;
 
@@ -27,61 +35,70 @@ public class PanelMenu extends SpiderPanel {
     
     public PanelMenu() {
         super();
-                
+        
+        try {
+            ImageIcon bg = new ImageIcon(Resource.getBytesFromResource("lordvarys.jpg"));
+            bg = Resource.getScaledImage(bg, WINDOW_WIDTH, WINDOW_HEIGHT);
+            JLabel bgImage = new JLabel(bg);
+            bgImage.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+            //textArea.add(bgImage, BorderLayout.CENTER); 
+        } catch (SpiderImageException ex) {
+            System.err.println("Can't find background!");
+            ex.printStackTrace();
+        }
+        
         textArea.setLayout(new BoxLayout(textArea, BoxLayout.PAGE_AXIS));
         //textArea.setPreferredSize(new Dimension(SpiderButton.BIGBUTTON_WIDTH + SIDE_MARGIN, PANEL_HEIGHT));
         
         textArea.add(Box.createRigidArea(new Dimension(0,PADDINGBIG)));
         
-        JButton housesButton = new SpiderBigButton("Houses");
-        textArea.add(housesButton);
-        housesButton.setAlignmentX(RIGHT_ALIGNMENT);
+        JButton housesButton = addButton("Houses", true);
         housesButton.addActionListener(housesAction());
         textArea.add(Box.createRigidArea(new Dimension(0,PADDING)));
         
-        JButton housesFindButton = new SpiderSmallButton("Find");
-        textArea.add(housesFindButton);
-        housesFindButton.setAlignmentX(RIGHT_ALIGNMENT);
+        JButton housesFindButton = addButton("Find", false);
         housesFindButton.addActionListener(housesFindAction());
         textArea.add(Box.createRigidArea(new Dimension(0,PADDING)));
         
-        JButton housesAddButton = new SpiderSmallButton("Add");
-        textArea.add(housesAddButton);
-        housesAddButton.setAlignmentX(RIGHT_ALIGNMENT);
+        JButton housesAddButton = addButton("Add", false);
         housesAddButton.addActionListener(housesAddAction());
         textArea.add(Box.createRigidArea(new Dimension(0,PADDINGBIG)));
         
-        JButton charactersButton = new SpiderBigButton("Characters");
-        textArea.add(charactersButton);
-        charactersButton.setAlignmentX(RIGHT_ALIGNMENT);
+        JButton charactersButton = addButton("Characters", true);
         charactersButton.addActionListener(charactersAction());
         textArea.add(Box.createRigidArea(new Dimension(0,PADDING)));
         
-        JButton charactersFindButton = new SpiderSmallButton("Find");
-        textArea.add(charactersFindButton);
-        charactersFindButton.setAlignmentX(RIGHT_ALIGNMENT);
+        JButton charactersFindButton = addButton("Find", false);
         charactersFindButton.addActionListener(charactersFindAction());
         textArea.add(Box.createRigidArea(new Dimension(0,PADDING)));
         
-        JButton charactersAddButton = new SpiderSmallButton("Add");
-        textArea.add(charactersAddButton);
-        charactersAddButton.setAlignmentX(RIGHT_ALIGNMENT);
+        JButton charactersAddButton = addButton("Add", false);
         charactersAddButton.addActionListener(charactersAddAction());
         textArea.add(Box.createRigidArea(new Dimension(0,PADDINGBIG)));
         
-        JButton alliancesButton = new SpiderBigButton("Alliances");
-        textArea.add(alliancesButton);
-        alliancesButton.setAlignmentX(RIGHT_ALIGNMENT);
+        JButton alliancesButton = addButton("Alliances", true);
         alliancesButton.addActionListener(allianceAction());
         textArea.add(Box.createRigidArea(new Dimension(0,PADDING)));
         
+        JButton allianceAddButton = addButton("Add", false);
+        allianceAddButton.addActionListener(allianceAddAction());
+        textArea.add(Box.createRigidArea(new Dimension(0,PADDINGBIG)));
+        
+    }
+    
+    private JButton addButton(String text, boolean big) {
+        JButton button = (big) ? new SpiderBigButton(text) : new SpiderSmallButton(text);
+        textArea.add(button);
+        button.setAlignmentX(RIGHT_ALIGNMENT);
+        return button;
     }
     
     private void findHousePanel() {
         String name = JOptionPane.showInputDialog(this, "House Name", "Find House", JOptionPane.QUESTION_MESSAGE);
         
         if (name != null) {
-            MainWindow.getInstance().findHouse(name);
+            House house = MainWindow.getInstance().findHouse(name);
+            if (house != null) MainWindow.getInstance().showHouse(house);
         }
     }
     
@@ -89,7 +106,8 @@ public class PanelMenu extends SpiderPanel {
         String name = JOptionPane.showInputDialog(this, "Character Name", "Find Character", JOptionPane.QUESTION_MESSAGE);
         
         if (name != null) {
-            MainWindow.getInstance().findCharacter(name);
+            Character character = MainWindow.getInstance().findCharacter(name);
+            if (character != null) MainWindow.getInstance().showCharacter(character);
         }   
     }
     
@@ -135,4 +153,9 @@ public class PanelMenu extends SpiderPanel {
         };
     }
     
+    private ActionListener allianceAddAction() {
+        return (ActionEvent e) -> {
+            MainWindow.getInstance().addAlliance(null);
+        };
+    }
 }

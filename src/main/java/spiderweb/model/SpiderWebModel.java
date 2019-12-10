@@ -6,7 +6,6 @@
 package spiderweb.model;
 
 import java.net.URL;
-import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -36,66 +35,50 @@ public class SpiderWebModel {
     }
     
     public House addNewHouse(String name, String motto, URL url) throws SpiderImageException, SpiderWriteException {
-        House house = new House(name, motto, Resource.getBytes(url));
-        houseDao.save(house);
-        return house;
+        return addNewHouse(new House(name, motto, Resource.getBytes(url)));
     }
     
     public House addNewHouse(String name, String motto, String crestFileNameInResource) throws SpiderImageException, SpiderWriteException {
-        House house = new House(name, motto, Resource.getBytesFromResource(crestFileNameInResource));
-        houseDao.save(house);
-        return house;
+        return addNewHouse(new House(name, motto, Resource.getBytesFromResource(crestFileNameInResource)));
     }
     
     public House addNewHouse(String name, String motto, ImageIcon crest) throws SpiderImageException, SpiderWriteException {
-        House house = new House(name, motto, crest);
+        return addNewHouse(new House(name, motto, crest));
+    }
+    
+    public House addNewHouse(House house) throws SpiderImageException, SpiderWriteException {
         houseDao.save(house);
         return house;
     }
     
-    public Character addNewCharacter(String name, Integer armySize, Character.Status status) throws SpiderImageException, SpiderWriteException {
-        Character character = new Character(name, armySize, status);
+    public Character addNewCharacter(String name, Integer armySize, Character.Status status, House house) throws SpiderImageException, SpiderWriteException {
+        return addNewCharacter(new Character(name, armySize, status, house));
+    }
+    
+    public Character addNewCharacter(Character character) throws SpiderImageException, SpiderWriteException {
         characterDao.save(character);
         return character;
     }
     
-    public Character addNewCharacter(String name, Integer armySize, Character.Status status, House house) throws SpiderImageException, SpiderWriteException {
-        Character character = new Character(name, armySize, status, house);
-        characterDao.save(character);
+    public Character updateCharacter(Character character) throws SpiderImageException, SpiderWriteException {
+        characterDao.update(character);
         return character;
     }
     
     public Alliance addAlliance(House house1, House house2, LocalDate startDate) throws SpiderImageException, SpiderWriteException {
-        Alliance alliance = new Alliance(house1, house2, startDate);
-        allianceDao.save(alliance);
-        return alliance;
+        return addAlliance(new Alliance(house1, house2, startDate));
     }
     
     public Alliance addAlliance(House house1, House house2, LocalDate startDate, LocalDate endDate) throws SpiderImageException, SpiderWriteException {
-        Alliance alliance = new Alliance(house1, house2, startDate, endDate);
+        return addAlliance(new Alliance(house1, house2, startDate, endDate));
+    }
+    
+    public Alliance addAlliance(Alliance alliance) throws SpiderImageException, SpiderWriteException {
         allianceDao.save(alliance);
         return alliance;
     }
     
-    public void characterChangeArmySize(Character character, Integer newArmySize) throws SpiderImageException, SpiderWriteException {
-        character.setArmySize(newArmySize);
-        characterDao.update(character);
-    }
-    
-    public void characterChangeStatus(Character character, Character.Status newStatus) throws SpiderImageException, SpiderWriteException {
-        if (character.getStatus() == Character.Status.Deceased || newStatus != Character.Status.Deceased) {
-            return;
-        }
-        character.setStatus(Character.Status.Deceased);
-        character.setArmySize(0);
-        characterDao.update(character);
-    }
-    
-    public void characterChangeHouse(Character character, House newHouse) throws SpiderImageException, SpiderWriteException {
-        characterDao.update(character);
-    }
-    
-    public void allianceEnd(Alliance alliance, LocalDate endDate) throws SpiderImageException, SpiderWriteException {
+    public void endAlliance(Alliance alliance, LocalDate endDate) throws SpiderImageException, SpiderWriteException {
         allianceDao.closeAlliance(alliance, endDate);
     }
     

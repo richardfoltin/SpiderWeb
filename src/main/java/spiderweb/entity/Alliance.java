@@ -56,4 +56,8 @@ public class Alliance extends Entity {
         return endDate != null;
     }
     
+    @Override
+    public String toString() {
+        return "[Alliance] #" + id + " " + house1.getName() + "-" + house2.getName() + " " + startDate.toString() + "->" + ((isClosed()) ? endDate.toString() : "");
+    }
 }

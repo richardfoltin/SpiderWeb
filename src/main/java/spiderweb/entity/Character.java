@@ -24,13 +24,7 @@ public class Character extends Entity {
         this.status = status;
         this.house = house;
     }
-    
-    public Character(String name, Integer armySize, Status status) {
-        this.name = name;
-        this.armySize = armySize;
-        this.status = status;
-    }
-    
+        
     public void setArmySize(Integer newArmySize) {
         this.armySize = newArmySize;
     }
@@ -46,6 +40,10 @@ public class Character extends Entity {
     public House getHouse() {
         return house;
     }
+    
+    public String getHouseName() {
+        return (hasHouse()) ? house.getName() : "No House";
+    }
 
     public Integer getArmySize() {
         return armySize;
@@ -55,7 +53,7 @@ public class Character extends Entity {
         return status;
     }
     
-    public Boolean getStatusBoolean() {
+    public Boolean isLiving() {
         return status == Status.Living;
     }
     
@@ -66,5 +64,9 @@ public class Character extends Entity {
     public boolean hasHouse() {
         return house != null;
     }
-    
+
+    @Override
+    public String toString() {
+        return "[Character] #" + id + " " + name + "(" + status.toString() + ") @" + getHouseName() + " Army: " + armySize.toString();
+    }
 }

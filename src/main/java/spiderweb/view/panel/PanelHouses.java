@@ -7,6 +7,7 @@ package spiderweb.view.panel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import spiderweb.entity.House;
 import spiderweb.jdbcdao.dbexception.SpiderReadException;
 import spiderweb.view.MainWindow;
 import spiderweb.view.table.TableHouses;
@@ -39,7 +40,8 @@ public class PanelHouses extends SpiderTablePanel {
     protected ActionListener actionAction() {
         return (ActionEvent e) -> {
             try {
-                MainWindow.getInstance().findHouse(table.getSelectedId());
+                House house = MainWindow.getInstance().findHouse(table.getSelectedId());
+                if (house != null) MainWindow.getInstance().showHouse(house);
             } catch (Exception ex) {
                 MainWindow.getInstance().infoMessage("House is not selected.");
             }

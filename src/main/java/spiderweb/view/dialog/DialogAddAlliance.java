@@ -60,6 +60,7 @@ public class DialogAddAlliance extends SpiderAddDialog {
         endPanel.add(endField);
     }
 
+    @Override
     protected void save() {
         
         House house1 = houseList1.getSelectedHouse();
@@ -69,7 +70,6 @@ public class DialogAddAlliance extends SpiderAddDialog {
             window.errorMessage("A house cannot ally with itself!");
             return;
         }
-        
         
         LocalDate start_date = null;
         LocalDate end_date = null;

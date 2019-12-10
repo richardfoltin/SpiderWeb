@@ -88,6 +88,10 @@ public abstract class JDBCSuperDao<E extends Entity> {
     }
     
     protected E save(E entity, String[] columns, Object[] values) throws SpiderWriteException  {
+        if (columns.length != values.length) {
+            throw new SpiderWriteException("Columns and values count don't match.");
+        }
+                
         StringBuilder builder = new StringBuilder();
         builder.append("INSERT INTO \"ROOT\".\"").append(table).append("\"\n");
         builder.append("(");
@@ -128,6 +132,10 @@ public abstract class JDBCSuperDao<E extends Entity> {
     }
     
     protected void update(E entity, String[] columns, Object[] values) throws SpiderWriteException {
+        if (columns.length != values.length) {
+            throw new SpiderWriteException("Columns and values count don't match.");
+        }
+        
         StringBuilder builder = new StringBuilder();
         builder.append("UPDATE \"ROOT\".\"").append(table).append("\"\n");
         builder.append("SET ");
@@ -137,7 +145,7 @@ public abstract class JDBCSuperDao<E extends Entity> {
         }
         
         builder.deleteCharAt(builder.length() - 1);
-        builder.append("\n WHERE ").append(id).append(" = ?");
+        builder.append("\n WHERE ").append(id).append(" = ").append(entity.getId());
 
         try {
             PreparedStatement statement = SpiderWebApp.getConnection().prepareStatement(builder.toString());
@@ -145,8 +153,6 @@ public abstract class JDBCSuperDao<E extends Entity> {
             for (int i = 0; i < values.length; i++) {
                 StatementValueSetter(statement, i + 1, values[i]);
             }
-            
-            statement.setInt(values.length, entity.getId());
             
             statement.executeUpdate();
         } catch (SQLException ex) {

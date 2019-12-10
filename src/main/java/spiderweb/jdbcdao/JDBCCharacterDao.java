@@ -58,7 +58,7 @@ public class JDBCCharacterDao extends JDBCSuperDao<Character> implements Charact
         Object[] values = new Object[] {
             character.getName(), 
             character.getArmySize(), 
-            character.getStatusBoolean(), 
+            character.isLiving(), 
             (character.hasHouse()) ? character.getHouse().getId() : null};
         
         return super.save(character, columns, values);
@@ -70,7 +70,7 @@ public class JDBCCharacterDao extends JDBCSuperDao<Character> implements Charact
         Object[] values = new Object[] {
             character.getName(), 
             character.getArmySize(), 
-            character.getStatusBoolean(), 
+            character.isLiving(), 
             (character.hasHouse()) ? character.getHouse().getId() : null};
         
         super.update(character, columns, values);

@@ -80,6 +80,7 @@ public final class DialogAddHouse extends SpiderAddDialog {
         
     }
     
+    @Override
     protected void save() {
         String name = nameField.getText();
         String motto = mottoField.getText();

@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import javax.swing.*;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.border.EmptyBorder;
+import spiderweb.Resource;
 import spiderweb.entity.Alliance;
 import spiderweb.entity.House;
 import spiderweb.entity.Character;
@@ -26,6 +27,7 @@ import spiderweb.model.SpiderWebModel;
 import spiderweb.view.dialog.DialogAddAlliance;
 import spiderweb.view.dialog.DialogAddCharacter;
 import spiderweb.view.dialog.DialogAddHouse;
+import spiderweb.view.dialog.DialogModifyCharacter;
 
 /**
  *
@@ -71,6 +73,7 @@ public class MainWindow extends JFrame {
         header.setBorder(new EmptyBorder(5, SpiderPanel.SIDE_MARGIN, 5, SpiderPanel.SIDE_MARGIN));
         add(header, BorderLayout.PAGE_START);
         
+        
         setResizable(false);
         setVisible(true);
     }
@@ -98,7 +101,7 @@ public class MainWindow extends JFrame {
     public void showCharacter(Character character) {
         changePanel(new PanelCharacter(character));
     }
-    
+        
     private void changePanel(SpiderPanel panel) {
         if (activePanel != null) remove(activePanel);
         
@@ -108,44 +111,40 @@ public class MainWindow extends JFrame {
         centerWindow();
     }
     
-    public void findHouse(int id) {
+    public House findHouse(int id) {
         try {
-            House house = model.getHouse(id);
-            showHouse(house);
+            return model.getHouse(id);
         } catch (SpiderReadException ex) {
-            System.err.println("Can't find house: " + id);
-            ex.printStackTrace();
+            errorMessage("Can't find house: " + id);
         }
+        return null;
     }
     
-    public void findHouse(String houseName){
+    public House findHouse(String houseName){
         try {
-            House house = model.getHouse(houseName);
-            showHouse(house);
+            return model.getHouse(houseName);
         } catch (SpiderReadException ex) {
-            System.err.println("Can't find house: " + houseName);
-            ex.printStackTrace();
+            errorMessage("Can't find house: " + houseName);
         }
+        return null;
     }
     
-    public void findCharacter(int id) {
+    public Character findCharacter(int id) {
         try {
-            Character character = model.getCharacter(id);
-            showCharacter(character);
+            return model.getCharacter(id);
         } catch (SpiderReadException ex) {
-            System.err.println("Can't find character: " + id);
-            ex.printStackTrace();
+            errorMessage("Can't find character: " + id);
         }
+        return null;
     }
     
-    public void findCharacter(String characterName) {
+    public Character findCharacter(String characterName) {
         try {
-            Character character = model.getCharacter(characterName);
-            showCharacter(character);
+            return model.getCharacter(characterName);
         } catch (SpiderReadException ex) {
-            System.err.println("Can't find character: " + characterName);
-            ex.printStackTrace();
+            errorMessage("Can't find character: " + characterName);
         }
+        return null;
     }
     
     public void addHouse() {
@@ -158,6 +157,11 @@ public class MainWindow extends JFrame {
         dialog.showDialog();
     }
     
+    public void modifyCharacter(Character character) {
+        DialogModifyCharacter dialog = new DialogModifyCharacter(this, character);
+        dialog.showDialog();
+    }
+    
     public void addAlliance(House house) {
         DialogAddAlliance dialog = new DialogAddAlliance(this);
         if (house != null) dialog.setInitialHouse(house);
@@ -167,7 +171,7 @@ public class MainWindow extends JFrame {
     public void closeAlliance(int id){
         try {
             Alliance alliance = model.getAlliance(id);
-            model.allianceEnd(alliance, LocalDate.MAX);
+            model.endAlliance(alliance, LocalDate.MAX);
         } catch (SpiderReadException | SpiderImageException | SpiderWriteException ex) {
             System.err.println("Can't close alliance: " + id);
             ex.printStackTrace();

@@ -12,6 +12,7 @@ import spiderweb.jdbcdao.dbexception.SpiderImageException;
 import spiderweb.jdbcdao.dbexception.SpiderWriteException;
 import spiderweb.view.MainWindow;
 import spiderweb.entity.Character.Status;
+import spiderweb.entity.Character;
 import spiderweb.entity.House;
 import spiderweb.jdbcdao.dbexception.SpiderReadException;
 
@@ -21,13 +22,17 @@ import spiderweb.jdbcdao.dbexception.SpiderReadException;
  */
 public class DialogAddCharacter extends SpiderAddDialog {
     
-    private SpiderTextField nameField;
-    private SpiderTextField armyField;
-    private JCheckBox statusBox;
-    private SpiderHouseList houseList;
+    protected SpiderTextField nameField;
+    protected SpiderTextField armyField;
+    protected JCheckBox statusBox;
+    protected SpiderHouseList houseList;
     
     public DialogAddCharacter(MainWindow frame){
         super(frame, "Add Character");   
+    }
+    
+    public DialogAddCharacter(MainWindow frame, String title){
+        super(frame, title);   
     }
 
     @Override
@@ -63,14 +68,14 @@ public class DialogAddCharacter extends SpiderAddDialog {
         }
     }
 
-    
-    protected void save() {
+    protected Character collectData() {
+        
         String name = nameField.getText();
         Status status = statusBox.isSelected() ? Status.Deceased : Status.Living;
         
         if ("".equals(name)) {
             window.errorMessage("Name is empty.");
-            return;
+            return null;
         }
         
         Integer armySize = 0;
@@ -78,7 +83,7 @@ public class DialogAddCharacter extends SpiderAddDialog {
             armySize = Integer.parseInt(armyField.getText());
         } catch (Exception ex) {
             window.errorMessage("Army size is not numeric.");
-            return;
+            return null;
         }
         
         if (status == Status.Deceased) {
@@ -87,8 +92,17 @@ public class DialogAddCharacter extends SpiderAddDialog {
         
         House house = houseList.getSelectedHouse();
         
+        return new Character(name, armySize, status, house);
+    }
+    
+    @Override
+    protected void save() {
+        
+        Character character = collectData();
+        if (character == null) return;
+        
         try {
-            window.getModel().addNewCharacter(name, armySize, status, house);
+            window.getModel().addNewCharacter(character);
         } catch (SpiderWriteException | SpiderImageException ex) {
             window.errorMessage("Can't save to database!");
             System.out.println(ex.getMessage());

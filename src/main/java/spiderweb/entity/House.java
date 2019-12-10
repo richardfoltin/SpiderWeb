@@ -66,4 +66,8 @@ public class House extends Entity {
         return Resource.getBytes(crest);
     }
     
+    @Override
+    public String toString() {
+        return "[House] #" + id + " " + name;
+    }
 }

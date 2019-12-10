@@ -31,8 +31,16 @@ public class PanelCharacter extends SpiderActionPanel {
     private static final int GRID_WIDTH = 200;
     private static final int GRID_HEIGHT = 40;
     
+    private Character character;
+    private CharacterGridLabel statusValue;
+    private CharacterGridLabel armyValue;
+    private CharacterGridLabel houseValue;
+    private JLabel crestImage;
+    
     public PanelCharacter(Character character) {
         super(character.getName(), "Modify");
+        
+        this.character = character;
         
         JPanel flowArea = new JPanel();
         flowArea.setLayout(new BorderLayout());
@@ -48,32 +56,50 @@ public class PanelCharacter extends SpiderActionPanel {
         JLabel statusLabel = new CharacterGridLabel("Status:");
         infoArea.add(statusLabel);
         
-        JLabel statusValue = new CharacterGridLabel(character.getStatus().toString());
+        statusValue = new CharacterGridLabel(character.getStatus().toString());
         infoArea.add(statusValue);
         
         // army size
-        JLabel armyLabel = new CharacterGridLabel("Army size:");
+        CharacterGridLabel armyLabel = new CharacterGridLabel("Army size:");
         infoArea.add(armyLabel);
         
-        JLabel armyValue = new CharacterGridLabel(character.getArmySize().toString());
+        armyValue = new CharacterGridLabel(character.getArmySize().toString());
         infoArea.add(armyValue);
         
         // house
         JLabel houseLabel = new CharacterGridLabel("House:");
         infoArea.add(houseLabel);
         
-        JLabel houseValue = new CharacterGridLabel((character.getHouse() == null) ? "No House" : character.getHouse().getName());
+        houseValue = new CharacterGridLabel(character.getHouseName());
         infoArea.add(houseValue);
 
         // house crest
-        if (character.getHouse() != null) {
+        if (character.hasHouse()) {
             ImageIcon crest = character.getHouse().getCrest();
             crest = Resource.getScaledImage(crest, CREST_WIDTH, CREST_HEIGHT);
-            JLabel crestImage = new JLabel(crest, JLabel.RIGHT);
+            crestImage = new JLabel(crest, JLabel.RIGHT);
             crestImage.setPreferredSize(new Dimension(CREST_WIDTH,CREST_HEIGHT));
             textArea.add(crestImage, BorderLayout.LINE_END);  
         }
-     
+    }
+    
+    private void updateData(Character character) {
+        this.character = character;
+        
+        statusValue.setText(character.getStatus().toString());
+        armyValue.setText(character.getArmySize().toString());
+        houseValue.setText(character.getHouseName());
+        
+        if (character.hasHouse()) {
+            ImageIcon crest = character.getHouse().getCrest();
+            crest = Resource.getScaledImage(crest, CREST_WIDTH, CREST_HEIGHT);
+            crestImage.setIcon(crest);
+        } else {
+            crestImage.setIcon(null);
+        }
+        
+        revalidate();
+        repaint();
     }
     
     private class CharacterGridLabel extends JLabel {
@@ -84,9 +110,7 @@ public class PanelCharacter extends SpiderActionPanel {
             setFont(SpiderFont.CHARACTER_GRID);
             setPreferredSize(new Dimension(GRID_WIDTH, GRID_HEIGHT));
         }
-        
     }
-    
     
     @Override
     protected ActionListener backAction() {
@@ -98,7 +122,9 @@ public class PanelCharacter extends SpiderActionPanel {
     @Override
     protected ActionListener actionAction() {
         return (ActionEvent e) -> {
-            
+            MainWindow.getInstance().modifyCharacter(character);
+            Character updatedCharacter = MainWindow.getInstance().findCharacter(character.getId());
+            updateData(updatedCharacter);
         };
     }
 }

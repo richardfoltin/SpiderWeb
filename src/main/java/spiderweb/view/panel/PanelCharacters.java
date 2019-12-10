@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import spiderweb.jdbcdao.dbexception.SpiderReadException;
 import spiderweb.view.MainWindow;
+import spiderweb.entity.Character;
 import spiderweb.view.table.TableCharacters;
 
 /**
@@ -40,7 +41,8 @@ public class PanelCharacters extends SpiderTablePanel {
     protected ActionListener actionAction() {
         return (ActionEvent e) -> {
             try {
-                MainWindow.getInstance().findCharacter(table.getSelectedId());
+                Character character = MainWindow.getInstance().findCharacter(table.getSelectedId());
+                if (character != null) MainWindow.getInstance().showCharacter(character);
             } catch (Exception ex) {
                 MainWindow.getInstance().infoMessage("Character is not selected.");
             }
