@@ -26,7 +26,7 @@ public abstract class SpiderPanel extends JPanel {
     public SpiderPanel() {
         
         setLayout(new BorderLayout());
-                
+        
         textArea = new JPanel();
         add(textArea,BorderLayout.CENTER);
         

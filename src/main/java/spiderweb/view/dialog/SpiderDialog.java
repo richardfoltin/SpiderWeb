@@ -128,6 +128,11 @@ public abstract class SpiderDialog extends JDialog {
         }
 
         public void selectHouse(House house) {
+            if (house == null) {
+                setSelectedIndex(0);
+                return;
+            }
+            
             int i;
             for (i = 0; i < houseID.size(); i++) {
                 if (house.getId().intValue() == houseID.get(i)) break;

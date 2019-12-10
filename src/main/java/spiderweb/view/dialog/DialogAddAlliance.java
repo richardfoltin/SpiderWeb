@@ -8,6 +8,7 @@ package spiderweb.view.dialog;
 import java.awt.FlowLayout;
 import java.time.LocalDate;
 import javax.swing.JPanel;
+import spiderweb.entity.Alliance;
 import spiderweb.entity.House;
 import spiderweb.jdbcdao.dbexception.SpiderImageException;
 import spiderweb.jdbcdao.dbexception.SpiderReadException;
@@ -20,13 +21,17 @@ import spiderweb.view.MainWindow;
  */
 public class DialogAddAlliance extends SpiderAddDialog {
     
-    private SpiderHouseList houseList1;
-    private SpiderHouseList houseList2;
-    private SpiderTextField startField;
-    private SpiderTextField endField;
+    protected SpiderHouseList houseList1;
+    protected SpiderHouseList houseList2;
+    protected SpiderTextField startField;
+    protected SpiderTextField endField;
     
     public DialogAddAlliance(MainWindow frame){
         super(frame, "Add Alliance");   
+    }
+    
+    public DialogAddAlliance(MainWindow frame, String title){
+        super(frame, title);   
     }
     
     @Override
@@ -59,16 +64,15 @@ public class DialogAddAlliance extends SpiderAddDialog {
         endField = new SpiderTextField();
         endPanel.add(endField);
     }
-
-    @Override
-    protected void save() {
+    
+    protected Alliance collectData() {
         
         House house1 = houseList1.getSelectedHouse();
         House house2 = houseList2.getSelectedHouse();
         
         if (house1.getId().intValue() == house2.getId().intValue()) {
             window.errorMessage("A house cannot ally with itself!");
-            return;
+            return null;
         }
         
         LocalDate start_date = null;
@@ -82,16 +86,26 @@ public class DialogAddAlliance extends SpiderAddDialog {
             }
         } catch (Exception ex) {
             window.errorMessage("Not valid date!");
-            return;
+            return null;
         }
         
-        if (start_date.isAfter(end_date)) {
-            window.errorMessage("End Date should be before Start Date!");
-            return;
+        if (end_date != null && start_date.isAfter(end_date)) {
+            window.errorMessage("Alliance end date should be before start date!");
+            return null;
         }
+        
+        return new Alliance(house1, house2, start_date, end_date);
+    }
+    
 
+    @Override
+    protected void save() {
+        
+        Alliance alliance = collectData();
+        if (alliance == null) return;
+        
         try {
-            window.getModel().addAlliance(house1, house2, start_date, end_date);
+            window.getModel().addAlliance(alliance);
         } catch (SpiderWriteException | SpiderImageException ex) {
             window.errorMessage("Can't save to database!");
             System.out.println(ex.getMessage());
@@ -105,6 +119,7 @@ public class DialogAddAlliance extends SpiderAddDialog {
     
     public void setInitialHouse(House house) {
         houseList1.selectHouse(house);
+        houseList1.setEnabled(false);
     }
     
 }

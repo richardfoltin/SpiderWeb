@@ -20,6 +20,7 @@ import spiderweb.view.table.SpiderTable;
 public abstract class SpiderTablePanel extends SpiderActionPanel {
 
     protected SpiderTable table;
+    private JScrollPane scrollPane;
     
     public SpiderTablePanel(String title, String actionButtonText)  {
         super(title, actionButtonText);
@@ -30,7 +31,12 @@ public abstract class SpiderTablePanel extends SpiderActionPanel {
 
     protected final void addTable(SpiderTable table) {
         this.table = table;
-        textArea.add(addScrollPane(table), BorderLayout.CENTER);
+        this.scrollPane = addScrollPane(table);
+        textArea.add(scrollPane, BorderLayout.CENTER);
     }   
     
+    protected void changeTable(SpiderTable newTable) {
+        changeTableOnScrollPane(scrollPane, this.table, newTable);
+        this.table = newTable;
+    }
 }

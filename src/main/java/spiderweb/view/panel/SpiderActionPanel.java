@@ -15,7 +15,6 @@ import static java.awt.Component.LEFT_ALIGNMENT;
 import static java.awt.Component.RIGHT_ALIGNMENT;
 import javax.swing.JScrollPane;
 
-import spiderweb.view.button.SpiderBigButton;
 import spiderweb.view.button.SpiderButton;
 import spiderweb.view.constant.SpiderColor;
 import spiderweb.view.constant.SpiderFont;
@@ -38,7 +37,7 @@ public abstract class SpiderActionPanel extends SpiderPanel {
     
     protected SpiderButton backButton;
     protected SpiderButton actionButton;
-    
+        
     public SpiderActionPanel(String title, String actionButtonText) {
         super();
         
@@ -70,10 +69,15 @@ public abstract class SpiderActionPanel extends SpiderPanel {
     }
   
     protected JScrollPane addScrollPane(SpiderTable table) {
-        JScrollPane scroll = new JScrollPane(table);
-        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        return scroll;
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        return scrollPane;
     }    
+    
+    protected void changeTableOnScrollPane(JScrollPane scrollPane, SpiderTable oldTable, SpiderTable newTable) {
+        scrollPane.getViewport().remove(oldTable);
+        scrollPane.getViewport().add(newTable);
+    }
     
     protected abstract ActionListener backAction();
     

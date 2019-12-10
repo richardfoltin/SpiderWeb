@@ -6,7 +6,6 @@
 package spiderweb.view.button;
 
 import java.awt.Dimension;
-import javax.swing.JPanel;
 import spiderweb.view.constant.SpiderColor;
 import spiderweb.view.constant.SpiderFont;
 

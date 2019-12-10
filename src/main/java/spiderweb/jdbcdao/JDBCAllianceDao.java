@@ -93,7 +93,9 @@ public class JDBCAllianceDao extends JDBCSuperDao<Alliance> implements AllianceD
         java.sql.Date sqlEndDate = resultSet.getDate("end_date");
         LocalDate endDate = (sqlEndDate == null) ? null : sqlEndDate.toLocalDate();
         
-        return new Alliance(house1, house2, startDate, endDate);
+        Alliance alliance = new Alliance(house1, house2, startDate, endDate);
+        alliance.setId(resultSet.getInt("alliance_id"));
+        return alliance;
     }
     
     private Alliance setAlliance(ResultSet resultSet, House baseHouse) throws SQLException {

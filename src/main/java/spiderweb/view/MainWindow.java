@@ -27,6 +27,7 @@ import spiderweb.model.SpiderWebModel;
 import spiderweb.view.dialog.DialogAddAlliance;
 import spiderweb.view.dialog.DialogAddCharacter;
 import spiderweb.view.dialog.DialogAddHouse;
+import spiderweb.view.dialog.DialogModifyAlliance;
 import spiderweb.view.dialog.DialogModifyCharacter;
 
 /**
@@ -147,6 +148,15 @@ public class MainWindow extends JFrame {
         return null;
     }
     
+    public Alliance findAlliance(int id) {
+        try {
+            return model.getAlliance(id);
+        } catch (SpiderReadException ex) {
+            errorMessage("Can't find alliance: " + id);
+        }
+        return null;
+    }
+        
     public void addHouse() {
         DialogAddHouse dialog = new DialogAddHouse(this);
         dialog.showDialog();
@@ -168,14 +178,9 @@ public class MainWindow extends JFrame {
         dialog.showDialog();
     }
     
-    public void closeAlliance(int id){
-        try {
-            Alliance alliance = model.getAlliance(id);
-            model.endAlliance(alliance, LocalDate.MAX);
-        } catch (SpiderReadException | SpiderImageException | SpiderWriteException ex) {
-            System.err.println("Can't close alliance: " + id);
-            ex.printStackTrace();
-        }
+    public void closeAlliance(Alliance alliance){
+        DialogModifyAlliance dialog = new DialogModifyAlliance(this, alliance);
+        dialog.showDialog();
     }
     
     public void errorMessage(String msg) {

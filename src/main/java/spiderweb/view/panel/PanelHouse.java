@@ -15,7 +15,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import spiderweb.Resource;
 import spiderweb.entity.House;
 import spiderweb.jdbcdao.dbexception.SpiderReadException;
@@ -40,6 +39,8 @@ public class PanelHouse extends SpiderActionPanel {
     
     private SpiderTable charactersTable;
     private SpiderTable alliancesTable;
+    private JScrollPane charactersPane;
+    private JScrollPane alliancesPane;
     private House house;
     
     public PanelHouse(House house) {
@@ -55,9 +56,9 @@ public class PanelHouse extends SpiderActionPanel {
             ex.printStackTrace();
         }
         
-        JScrollPane charactersPane = addScrollPane(charactersTable);   
+        charactersPane = addScrollPane(charactersTable);   
         charactersPane.setPreferredSize(new Dimension(SMALL_TABLE_WIDTH,SMALL_TABLE_HEIGHT));
-        JScrollPane alliancesPane = addScrollPane(alliancesTable);
+        alliancesPane = addScrollPane(alliancesTable);
         alliancesPane.setPreferredSize(new Dimension(SMALL_TABLE_WIDTH,SMALL_TABLE_HEIGHT));
 
         textArea.add(charactersPane, BorderLayout.LINE_START);
@@ -88,6 +89,23 @@ public class PanelHouse extends SpiderActionPanel {
         infoArea.add(mottoLabel);
     }
     
+    private void refreshAlliancesTable() {
+        
+        SpiderTable newAlliancesTable;
+        
+        try {
+            newAlliancesTable = new TableHouseAlliances(house);
+        } catch (SpiderReadException ex) {
+            System.err.println(ex.getMessage());
+            ex.printStackTrace();
+            return;
+        }
+        
+        changeTableOnScrollPane(alliancesPane, this.alliancesTable, newAlliancesTable);
+        this.alliancesTable = newAlliancesTable;
+    }
+    
+    
     @Override
     protected ActionListener backAction() {
         return (ActionEvent e) -> {
@@ -99,6 +117,7 @@ public class PanelHouse extends SpiderActionPanel {
     protected ActionListener actionAction() {
         return (ActionEvent e) -> {
             MainWindow.getInstance().addAlliance(house);
+            refreshAlliancesTable();
         };
     }
 }

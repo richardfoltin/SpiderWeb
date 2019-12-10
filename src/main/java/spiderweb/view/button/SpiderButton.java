@@ -10,7 +10,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import spiderweb.view.constant.SpiderColor;
 
 /**

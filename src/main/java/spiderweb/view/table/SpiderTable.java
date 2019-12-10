@@ -57,7 +57,7 @@ public abstract class SpiderTable extends JTable{
         getTableHeader().setReorderingAllowed(false);
         getTableHeader().setResizingAllowed(false);
     }
-    
+        
     public int getSelectedId() {
         int modelRow = convertRowIndexToModel(getSelectedRow());
         return (Integer)getModel().getValueAt(modelRow,0);

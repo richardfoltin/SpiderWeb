@@ -74,13 +74,7 @@ public class PanelCharacter extends SpiderActionPanel {
         infoArea.add(houseValue);
 
         // house crest
-        if (character.hasHouse()) {
-            ImageIcon crest = character.getHouse().getCrest();
-            crest = Resource.getScaledImage(crest, CREST_WIDTH, CREST_HEIGHT);
-            crestImage = new JLabel(crest, JLabel.RIGHT);
-            crestImage.setPreferredSize(new Dimension(CREST_WIDTH,CREST_HEIGHT));
-            textArea.add(crestImage, BorderLayout.LINE_END);  
-        }
+        addHouseCrest(character);
     }
     
     private void updateData(Character character) {
@@ -90,16 +84,24 @@ public class PanelCharacter extends SpiderActionPanel {
         armyValue.setText(character.getArmySize().toString());
         houseValue.setText(character.getHouseName());
         
-        if (character.hasHouse()) {
-            ImageIcon crest = character.getHouse().getCrest();
-            crest = Resource.getScaledImage(crest, CREST_WIDTH, CREST_HEIGHT);
-            crestImage.setIcon(crest);
-        } else {
-            crestImage.setIcon(null);
-        }
+        addHouseCrest(character);
         
         revalidate();
         repaint();
+    }
+    
+    private void addHouseCrest(Character character) {
+        if (crestImage != null) {
+            textArea.remove(crestImage);
+        }
+        
+        if (character.hasHouse()) {
+            ImageIcon crest = character.getHouse().getCrest();
+            crest = Resource.getScaledImage(crest, CREST_WIDTH, CREST_HEIGHT);
+            crestImage = new JLabel(crest, JLabel.RIGHT);
+            crestImage.setPreferredSize(new Dimension(CREST_WIDTH,CREST_HEIGHT));
+            textArea.add(crestImage, BorderLayout.LINE_END);  
+        } 
     }
     
     private class CharacterGridLabel extends JLabel {

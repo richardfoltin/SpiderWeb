@@ -5,6 +5,7 @@
  */
 package spiderweb.view.panel;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,15 +15,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.border.EmptyBorder;
 import spiderweb.Resource;
 import spiderweb.entity.House;
 import spiderweb.entity.Character;
 import spiderweb.jdbcdao.dbexception.SpiderImageException;
 import spiderweb.view.MainWindow;
-import static spiderweb.view.MainWindow.WINDOW_HEIGHT;
-import static spiderweb.view.MainWindow.WINDOW_WIDTH;
 import spiderweb.view.button.SpiderBigButton;
 import spiderweb.view.button.SpiderSmallButton;
+import static spiderweb.view.panel.SpiderPanel.HEADER_PADDING;
+import static spiderweb.view.panel.SpiderPanel.SIDE_MARGIN;
 
 /**
  *
@@ -37,17 +39,18 @@ public class PanelMenu extends SpiderPanel {
         super();
         
         try {
-            ImageIcon bg = new ImageIcon(Resource.getBytesFromResource("lordvarys.jpg"));
-            bg = Resource.getScaledImage(bg, WINDOW_WIDTH, WINDOW_HEIGHT);
+            ImageIcon bg = new ImageIcon(Resource.getBytesFromResource("varys.png"));
+            //bg = Resource.getScaledImage(bg, 400, 400);
             JLabel bgImage = new JLabel(bg);
-            bgImage.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-            //textArea.add(bgImage, BorderLayout.CENTER); 
+            //bgImage.setPreferredSize(new Dimension(400, 400));
+            add(bgImage, BorderLayout.LINE_START); 
         } catch (SpiderImageException ex) {
             System.err.println("Can't find background!");
             ex.printStackTrace();
         }
         
         textArea.setLayout(new BoxLayout(textArea, BoxLayout.PAGE_AXIS));
+        textArea.setBorder(new EmptyBorder(HEADER_PADDING,0,0,SIDE_MARGIN));
         //textArea.setPreferredSize(new Dimension(SpiderButton.BIGBUTTON_WIDTH + SIDE_MARGIN, PANEL_HEIGHT));
         
         textArea.add(Box.createRigidArea(new Dimension(0,PADDINGBIG)));
@@ -83,9 +86,8 @@ public class PanelMenu extends SpiderPanel {
         JButton allianceAddButton = addButton("Add", false);
         allianceAddButton.addActionListener(allianceAddAction());
         textArea.add(Box.createRigidArea(new Dimension(0,PADDINGBIG)));
-        
     }
-    
+        
     private JButton addButton(String text, boolean big) {
         JButton button = (big) ? new SpiderBigButton(text) : new SpiderSmallButton(text);
         textArea.add(button);
