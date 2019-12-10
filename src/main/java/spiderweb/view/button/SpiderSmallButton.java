@@ -1,17 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.view.button;
 
 import java.awt.Dimension;
+
 import spiderweb.view.constant.SpiderColor;
 import spiderweb.view.constant.SpiderFont;
 
 /**
- *
- * @author pokemonterkep
+ * Program ablakában használt kis gomb
+ * 
+ * @author Foltin Csaba Richárd
  */
 public class SpiderSmallButton extends SpiderButton {
     

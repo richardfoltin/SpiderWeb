@@ -1,19 +1,22 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.view.table;
 
-import spiderweb.view.table.model.TableHousesModel;
-import java.awt.Dimension;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+
+import spiderweb.view.table.model.TableHousesModel;
 import spiderweb.jdbcdao.dbexception.SpiderReadException;
 
 /**
- *
- * @author pokemonterkep
+ * A házakat tartalmazó táblázat
+ * 
+ * @author Foltin Csaba Richárd
  */
 public class TableHouses extends SpiderTable {
 

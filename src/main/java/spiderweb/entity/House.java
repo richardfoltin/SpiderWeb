@@ -1,17 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.entity;
 
 import java.io.IOException;
 import javax.swing.ImageIcon;
+
 import spiderweb.Resource;
 
 /**
- *
- * @author eandgna
+ * Ház
+ * 
+ * @author Foltin Csaba Richárd
  */
 public class House extends Entity {
 
@@ -42,20 +46,20 @@ public class House extends Entity {
         this.crest = crest;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getMotto() {
-        return motto;
     }
     
     public void setMotto(String motto) {
         this.motto = motto;
+    }
+    
+    public String getName() {
+        return name;
+    }
+
+    public String getMotto() {
+        return motto;
     }
     
     public ImageIcon getCrest() {

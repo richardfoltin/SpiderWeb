@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.view.panel;
 
@@ -15,19 +17,21 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import spiderweb.Resource;
 import spiderweb.entity.House;
 import spiderweb.jdbcdao.dbexception.SpiderReadException;
 import spiderweb.view.MainWindow;
-import static spiderweb.view.MainWindow.WINDOW_WIDTH;
 import spiderweb.view.constant.SpiderFont;
 import spiderweb.view.table.SpiderTable;
 import spiderweb.view.table.TableHouseAlliances;
 import spiderweb.view.table.TableHouseCharacters;
+import static spiderweb.view.MainWindow.WINDOW_WIDTH;
 
 /**
- *
- * @author pokemonterkep
+ * Egy házat megjenítő panel
+ * 
+ * @author Foltin Csaba Richárd
  */
 public class PanelHouse extends SpiderActionPanel {
 
@@ -89,8 +93,10 @@ public class PanelHouse extends SpiderActionPanel {
         infoArea.add(mottoLabel);
     }
     
+    /**
+     * A panelen szövetségeket tartalmazó tábla adatainak frissítése
+     */
     private void refreshAlliancesTable() {
-        
         SpiderTable newAlliancesTable;
         
         try {
@@ -105,7 +111,11 @@ public class PanelHouse extends SpiderActionPanel {
         this.alliancesTable = newAlliancesTable;
     }
     
-    
+    /**
+     * Visszanavigálás a házakat megjelenítő panelre
+     * 
+     * @return 
+     */
     @Override
     protected ActionListener backAction() {
         return (ActionEvent e) -> {
@@ -113,6 +123,11 @@ public class PanelHouse extends SpiderActionPanel {
         };
     }
 
+    /**
+     * Szövetség hozzáadása
+     * 
+     * @return 
+     */
     @Override
     protected ActionListener actionAction() {
         return (ActionEvent e) -> {

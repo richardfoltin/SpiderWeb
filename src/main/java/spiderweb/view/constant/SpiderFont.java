@@ -1,15 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.view.constant;
 
 import java.awt.Font;
 
 /**
- *
- * @author pokemonterkep
+ * A program ablakában használt betűtípusokat tartalmazó statikus osztály
+ * 
+ * @author Foltin Csaba Richárd
  */
 public class SpiderFont {
     public static final Font HEADER = new Font("Calibri", Font.BOLD, 48);

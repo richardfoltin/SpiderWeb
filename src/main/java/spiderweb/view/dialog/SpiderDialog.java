@@ -1,14 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.view.dialog;
-
-/**
- *
- * @author pokemonterkep
- */
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -23,11 +20,17 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import spiderweb.entity.House;
 import spiderweb.jdbcdao.dbexception.SpiderReadException;
 import spiderweb.view.MainWindow;
 import spiderweb.view.constant.SpiderFont;
 
+/**
+ * A programban használt dialógusablakok absztrakt szülőosztálya
+ * 
+ * @author Foltin Csaba Richárd
+ */
 public abstract class SpiderDialog extends JDialog {
  
     protected final int DIALOG_WIDTH = 400;
@@ -72,16 +75,28 @@ public abstract class SpiderDialog extends JDialog {
         setResizable(false);
     }
     
-    
+    /**
+     * Az dialógusablak felső terülétét kitöltő metódus
+     */
     protected abstract void fillMainPanel();
+    
+    /**
+     * Az dialógusablak alső területét kitöltő metódus
+     */
     protected abstract void fillBottomPanel();
     
+    /**
+     * Az dialógusablak megjelenítése
+     */
     public void showDialog() {
         Point windowLocation = window.getLocation();
         setLocation(new Point(windowLocation.x + window.getWidth() / 2 - DIALOG_WIDTH/2, windowLocation.y + window.getHeight()/2 - DIALOG_HEIGHT/2)); 
         setVisible(true);
     }
 
+    /**
+     * A dialógusablakban használt címkék
+     */
     protected class SpiderDialogLabel extends JLabel {
 
         public SpiderDialogLabel(String text) {
@@ -91,6 +106,9 @@ public abstract class SpiderDialog extends JDialog {
         }
     }
     
+    /**
+     * A dialógusablakban használt mezők
+     */
     protected class SpiderTextField extends JTextField {
 
         public SpiderTextField() {
@@ -100,6 +118,9 @@ public abstract class SpiderDialog extends JDialog {
         }
     }
     
+    /**
+     * A dialógusablakban használt házakat tartalmazó listák
+     */
     protected class SpiderHouseList extends JComboBox{
 
         private final ArrayList<Integer> houseID = new ArrayList();
@@ -127,6 +148,10 @@ public abstract class SpiderDialog extends JDialog {
             setPreferredSize(new Dimension(FIELD_WIDTH,GRID_HEIGHT));
         }
 
+        /**
+         * Az adott ház kiválasztása a listában
+         * @param house 
+         */
         public void selectHouse(House house) {
             if (house == null) {
                 setSelectedIndex(0);
@@ -140,6 +165,10 @@ public abstract class SpiderDialog extends JDialog {
             setSelectedIndex(i);
         }
         
+        /**
+         * A kiválasztott ház
+         * @return 
+         */
         public House getSelectedHouse() {
             int selectedHouse = getSelectedIndex();
             if (withNoHouse && selectedHouse == 0) return null;

@@ -1,18 +1,22 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.jdbcdao;
 
 import java.sql.SQLException;
 
 /**
- *
- * @author pokemonterkep
+ * Adatbázis adatokból entitást létrehozó függvény interface-e
+ * 
+ * @author Foltin Csaba Richárd
+ * @param <R> az adatbázisből visszakapott érétkkészlet osztálya 
+ * @param <E> az entitás
  */
-
 @FunctionalInterface
-public interface JDBCEntityCreator<T, R> {
-    R apply(T t) throws SQLException;    
+public interface JDBCEntityCreator<R, E> {
+    E apply(R result) throws SQLException;    
 }

@@ -1,28 +1,30 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.view.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import spiderweb.Resource;
 import spiderweb.view.MainWindow;
 import spiderweb.entity.Character;
 import spiderweb.view.constant.SpiderFont;
 
-
 /**
- *
- * @author pokemonterkep
+ * Egy karaktert megjenítő panel
+ * 
+ * @author Foltin Csaba Richárd
  */
 public class PanelCharacter extends SpiderActionPanel {
 
@@ -77,6 +79,11 @@ public class PanelCharacter extends SpiderActionPanel {
         addHouseCrest(character);
     }
     
+    /**
+     * A megadott karakter entitás alapján frissíti a panelen megjelenített adatokat
+     * 
+     * @param character 
+     */
     private void updateData(Character character) {
         this.character = character;
         
@@ -90,6 +97,11 @@ public class PanelCharacter extends SpiderActionPanel {
         repaint();
     }
     
+    /**
+     * Ház címerének hozzáadása a panelhez
+     * 
+     * @param character 
+     */
     private void addHouseCrest(Character character) {
         if (crestImage != null) {
             textArea.remove(crestImage);
@@ -104,16 +116,11 @@ public class PanelCharacter extends SpiderActionPanel {
         } 
     }
     
-    private class CharacterGridLabel extends JLabel {
-
-        public CharacterGridLabel(String text) {
-            super(text);
-            
-            setFont(SpiderFont.CHARACTER_GRID);
-            setPreferredSize(new Dimension(GRID_WIDTH, GRID_HEIGHT));
-        }
-    }
-    
+    /**
+     * Visszanavigálás a karaktereket megjelenítő panelre
+     * 
+     * @return 
+     */
     @Override
     protected ActionListener backAction() {
         return (ActionEvent e) -> {
@@ -121,6 +128,11 @@ public class PanelCharacter extends SpiderActionPanel {
         };
     }
 
+    /**
+     * A karakter adatainak módosítása
+     * 
+     * @return 
+     */
     @Override
     protected ActionListener actionAction() {
         return (ActionEvent e) -> {
@@ -128,5 +140,17 @@ public class PanelCharacter extends SpiderActionPanel {
             Character updatedCharacter = MainWindow.getInstance().findCharacter(character.getId());
             updateData(updatedCharacter);
         };
+    }
+    
+    /**
+     * A karakterpanel adatait megjelenítő címke
+     */
+    private class CharacterGridLabel extends JLabel {
+        public CharacterGridLabel(String text) {
+            super(text);
+            
+            setFont(SpiderFont.CHARACTER_GRID);
+            setPreferredSize(new Dimension(GRID_WIDTH, GRID_HEIGHT));
+        }
     }
 }

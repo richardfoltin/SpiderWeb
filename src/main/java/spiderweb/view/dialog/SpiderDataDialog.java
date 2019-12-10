@@ -1,30 +1,37 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.view.dialog;
 
-import static java.awt.Component.CENTER_ALIGNMENT;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import static java.awt.Component.CENTER_ALIGNMENT;
+
 import spiderweb.view.MainWindow;
 import static spiderweb.view.dialog.SpiderDialog.GRID_HEIGHT;
 
 /**
- *
- * @author pokemonterkep
+ * A programban használt adatmegjelnítő dialógusablakok absztrakt szülőosztálya
+ * 
+ * @author Foltin Csaba Richárd
  */
-public abstract class SpiderAddDialog extends SpiderDialog {
+public abstract class SpiderDataDialog extends SpiderDialog {
 
-    public SpiderAddDialog(MainWindow frame, String title) {
+    public SpiderDataDialog(MainWindow frame, String title) {
         super(frame, title);
     }
     
+    /**
+     * A dialógusablak alsó részének feltöltése a Cancel és a Save gombokkal
+     */
     @Override
     protected void fillBottomPanel() {
         
@@ -34,7 +41,7 @@ public abstract class SpiderAddDialog extends SpiderDialog {
         cancelButton.addActionListener(new ActionListener() { 
             @Override
             public void actionPerformed(ActionEvent e) { 
-                SpiderAddDialog.this.setVisible(false);
+                SpiderDataDialog.this.setVisible(false);
             } 
         });    
         bottomPanel.add(cancelButton);
@@ -45,12 +52,17 @@ public abstract class SpiderAddDialog extends SpiderDialog {
         okButton.addActionListener(new ActionListener() { 
             @Override
             public void actionPerformed(ActionEvent e) { 
-                SpiderAddDialog.this.save();
+                SpiderDataDialog.this.save();
             } 
         });    
         bottomPanel.add(okButton);
     }
     
+    /**
+     * Új sor hozzáadása az ablakhoz
+     * @param text
+     * @return 
+     */
     protected JPanel addNewRowWithLabel(String text) {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.LEADING));
@@ -61,5 +73,8 @@ public abstract class SpiderAddDialog extends SpiderDialog {
         return panel;
     }
     
+    /**
+     * A Save gomb megnyomásakor végrehajtott metódus
+     */
     protected abstract void save();
 }

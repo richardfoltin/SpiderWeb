@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.view.panel;
 
@@ -11,21 +13,22 @@ import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollPane;
 import static java.awt.Component.LEFT_ALIGNMENT;
 import static java.awt.Component.RIGHT_ALIGNMENT;
-import javax.swing.JScrollPane;
 
 import spiderweb.view.button.SpiderButton;
 import spiderweb.view.constant.SpiderColor;
 import spiderweb.view.constant.SpiderFont;
-import static spiderweb.view.panel.SpiderPanel.SIDE_MARGIN;
-import static spiderweb.view.MainWindow.WINDOW_WIDTH;
 import spiderweb.view.button.SpiderSmallButton;
 import spiderweb.view.table.SpiderTable;
+import static spiderweb.view.panel.SpiderPanel.SIDE_MARGIN;
+import static spiderweb.view.MainWindow.WINDOW_WIDTH;
 
 /**
- *
- * @author pokemonterkep
+ * Az ablakban használt panelek alul két gombot tartalmazó absztrakt szülőosztálya
+ * 
+ * @author Foltin Csaba Richárd
  */
 public abstract class SpiderActionPanel extends SpiderPanel {
 
@@ -38,6 +41,12 @@ public abstract class SpiderActionPanel extends SpiderPanel {
     protected SpiderButton backButton;
     protected SpiderButton actionButton;
         
+    /**
+     * Panel léterhozása a megadott fejléccel, és megadott szövegű jobb oldali gombbal
+     * 
+     * @param title a panel fejléce
+     * @param actionButtonText a jobb oldali gomb szövege
+     */
     public SpiderActionPanel(String title, String actionButtonText) {
         super();
         
@@ -68,18 +77,39 @@ public abstract class SpiderActionPanel extends SpiderPanel {
         footer.add(actionButton, BorderLayout.LINE_END);
     }
   
+    /**
+     * Táblát tartalmazó görgethető terület hozzáadása
+     * 
+     * @param table
+     * @return 
+     */
     protected JScrollPane addScrollPane(SpiderTable table) {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         return scrollPane;
     }    
     
+    /**
+     * A táblát tartalmzaó görgethető terület táblájának kicserélése (frissítése)
+     * 
+     * @param scrollPane
+     * @param oldTable
+     * @param newTable 
+     */
     protected void changeTableOnScrollPane(JScrollPane scrollPane, SpiderTable oldTable, SpiderTable newTable) {
         scrollPane.getViewport().remove(oldTable);
         scrollPane.getViewport().add(newTable);
     }
     
+    /**
+     * A vissza gomb hatására meghívott metódus
+     * @return 
+     */
     protected abstract ActionListener backAction();
     
+    /**
+     * A jobb oldali gomb hatására meghívott metódus
+     * @return 
+     */
     protected abstract ActionListener actionAction();
 }

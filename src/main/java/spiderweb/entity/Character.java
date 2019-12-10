@@ -1,27 +1,37 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.entity;
 
 /**
- *
- * @author pokemonterkep
+ * Karakter
+ * 
+ * @author Foltin Csaba Richárd
  */
 public class Character extends Entity {
     
     public enum Status { Living, Deceased}
     
-    private String name;
+    private final String name;
+    private final House house;
     private Integer armySize;
     private Status status;
-    private House house;
 
     public Character(String name, Integer armySize, Status status, House house) {
         this.name = name;
         this.armySize = armySize;
         this.status = status;
+        this.house = house;
+    }
+    
+    public Character(String name, Integer armySize, boolean status, House house) {
+        this.name = name;
+        this.armySize = armySize;
+        this.status = (status) ? Status.Living : Status.Deceased;
         this.house = house;
     }
         
@@ -41,6 +51,12 @@ public class Character extends Entity {
         return house;
     }
     
+    /**
+     * A karakterhez tartozó ház neve
+     * Ha a karakter nem tartozik egy házhoz sem, akkor "No House"
+     * 
+     * @return 
+     */
     public String getHouseName() {
         return (hasHouse()) ? house.getName() : "No House";
     }
@@ -57,10 +73,11 @@ public class Character extends Entity {
         return status == Status.Living;
     }
     
-    public static Status statusFromBoolean(Boolean statusBoolean) {
-        return (statusBoolean) ? Status.Living : Status.Deceased;
-    }
-    
+    /**
+     * A karakter tartozik-e házhoz
+     * 
+     * @return 
+     */
     public boolean hasHouse() {
         return house != null;
     }

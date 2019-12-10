@@ -1,12 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.view.dialog;
 
 import spiderweb.view.MainWindow;
 import spiderweb.entity.Character;
+
 import spiderweb.jdbcdao.dbexception.SpiderImageException;
 import spiderweb.jdbcdao.dbexception.SpiderWriteException;
 
@@ -16,7 +19,7 @@ import spiderweb.jdbcdao.dbexception.SpiderWriteException;
  */
 public class DialogModifyCharacter extends DialogAddCharacter {
 
-    private Character character;
+    private final Character character;
     
     public DialogModifyCharacter(MainWindow frame, Character character) {
         super(frame, "Modify Character");
@@ -25,6 +28,9 @@ public class DialogModifyCharacter extends DialogAddCharacter {
         setCharacterInfo();
     }
     
+    /**
+     * Az ablak mezőinek kitöltése módosítandó karakter adatival
+     */
     private void setCharacterInfo() {
         
         nameField.setText(character.getName());
@@ -40,6 +46,9 @@ public class DialogModifyCharacter extends DialogAddCharacter {
         }
     }
     
+    /**
+     * Az ablak adatainak adatbázisba mentése
+     */
     @Override
     protected void save() {
         

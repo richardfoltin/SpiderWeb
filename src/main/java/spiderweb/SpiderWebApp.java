@@ -1,30 +1,36 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb;
 
-import spiderweb.model.SpiderWebModel;
-import spiderweb.view.MainWindow;
 import java.io.*;
 import java.util.*;
 import java.sql.*;
 import java.time.LocalDate;
+
+import spiderweb.model.SpiderWebModel;
+import spiderweb.view.MainWindow;
 import spiderweb.entity.House;
 import spiderweb.entity.Character;
 import spiderweb.jdbcdao.dbexception.SpiderImageException;
 import spiderweb.jdbcdao.dbexception.SpiderWriteException;
+
 /**
- *
- * @author eandgna
+ * A program belépési pontja.
+ * Adatbáziskapcsolatért és az adatbázis kezdő feltöltésért felelős
+ * 
+ * @author Foltin Csaba Richárd
  */
 public class SpiderWebApp {
     
     private static Connection con;
     private static SpiderWebApp app;
     
-    private SpiderWebModel model;
+    private final SpiderWebModel model;
     
     private static final String URL = "jdbc:derby://localhost:1527/spiderweb;create=true";
     private static final String USER = "root";
@@ -57,12 +63,21 @@ public class SpiderWebApp {
        super.finalize();
        closeConnection();
     }
-    
+
+    /**
+     * Visszaadja a nyitot adatbáziskapcsolatot vagy nyit egy újat.
+     * 
+     * @return
+     * @throws SQLException 
+     */
     public static Connection getConnection() throws SQLException {
         if (con == null || con.isClosed()) openConnection();
         return con;
     }
     
+    /**
+     * Nyit egy új adatbáziskapcsolatot
+     */
     private static void openConnection() {
         System.out.println("openConnection");
         try {
@@ -76,6 +91,11 @@ public class SpiderWebApp {
         }
     }
    
+    /**
+     * Feltölti az adatbázis a kezdő adatokkal
+     * 
+     * @param model 
+     */
     private static void fillInitialData(SpiderWebModel model) {
         
         try {
@@ -116,6 +136,11 @@ public class SpiderWebApp {
         }
     }
     
+    /**
+     * Lefuttat egy SQL scriptet
+     * 
+     * @param path a script elérési útja
+     */
     private void executeScript(String path) {
         System.out.println("executeScript " + path);
         Scanner scanner = null;
@@ -141,6 +166,9 @@ public class SpiderWebApp {
         }
     }
    
+    /**
+     * Bezárja az adatbáziskapcsolatot.
+     */
     private void closeConnection() {
         System.out.println("closeConnection");
         try {

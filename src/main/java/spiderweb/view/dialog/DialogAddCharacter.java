@@ -1,13 +1,16 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.view.dialog;
 
 import java.awt.FlowLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+
 import spiderweb.jdbcdao.dbexception.SpiderImageException;
 import spiderweb.jdbcdao.dbexception.SpiderWriteException;
 import spiderweb.view.MainWindow;
@@ -17,10 +20,11 @@ import spiderweb.entity.House;
 import spiderweb.jdbcdao.dbexception.SpiderReadException;
 
 /**
- *
- * @author pokemonterkep
+ * Karakter hozzáadó dialógusablak
+ * 
+ * @author Foltin Csaba Richárd
  */
-public class DialogAddCharacter extends SpiderAddDialog {
+public class DialogAddCharacter extends SpiderDataDialog {
     
     protected SpiderTextField nameField;
     protected SpiderTextField armyField;
@@ -68,6 +72,11 @@ public class DialogAddCharacter extends SpiderAddDialog {
         }
     }
 
+    /**
+     * Az ablak mezői alapján egy Karakter entitás létrehozása
+     * 
+     * @return 
+     */
     protected Character collectData() {
         
         String name = nameField.getText();
@@ -95,6 +104,9 @@ public class DialogAddCharacter extends SpiderAddDialog {
         return new Character(name, armySize, status, house);
     }
     
+    /**
+     * Az ablak adatainak adatbázisba mentése
+     */
     @Override
     protected void save() {
         

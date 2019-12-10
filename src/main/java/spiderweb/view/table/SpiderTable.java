@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.view.table;
 
@@ -19,14 +21,13 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
- *
- * @author pokemonterkep
+ * A programban használt megjelnített táblázatok absztrakt szülőosztálya
+ * 
+ * @author Foltin Csaba Richárd
  */
 public abstract class SpiderTable extends JTable{
     
     protected static final int ROW_HEIGHT = 24;
-    //protected static final int TABLE_WIDTH = 140;
-    //protected static final int TABLE_WIDTH_BIG = 400;
     
     protected TableRowSorter<TableModel> sorter;
     protected List<RowSorter.SortKey> sortKeys;
@@ -58,11 +59,20 @@ public abstract class SpiderTable extends JTable{
         getTableHeader().setResizingAllowed(false);
     }
         
+    /**
+     * Visszaadja a táblán aktuálisan kiválasztott sor kulcsát
+     * 
+     * @return 
+     */
     public int getSelectedId() {
         int modelRow = convertRowIndexToModel(getSelectedRow());
         return (Integer)getModel().getValueAt(modelRow,0);
     }
-        
+       
+    /**
+     * Egy soron duplán kattintás történt
+     * @return 
+     */
     protected ActionListener selectedAction() {
         return (ActionEvent e) -> {
             // double click

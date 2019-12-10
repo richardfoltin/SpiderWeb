@@ -1,11 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.view.dialog;
 
-import java.time.LocalDate;
 import spiderweb.entity.Alliance;
 import spiderweb.jdbcdao.dbexception.SpiderImageException;
 import spiderweb.jdbcdao.dbexception.SpiderWriteException;
@@ -17,7 +18,7 @@ import spiderweb.view.MainWindow;
  */
 public class DialogModifyAlliance extends DialogAddAlliance {
 
-    private Alliance alliance;
+    private final Alliance alliance;
     
     public DialogModifyAlliance(MainWindow frame, Alliance alliance) {
         super(frame, "End Alliance");
@@ -26,6 +27,9 @@ public class DialogModifyAlliance extends DialogAddAlliance {
         setCharacterInfo();
     }
     
+    /**
+     * Az ablak mezőinek kitöltése módosítandó szövetség adatival
+     */
     private void setCharacterInfo() {
         
         houseList1.selectHouse(alliance.getHouse1());        
@@ -37,6 +41,9 @@ public class DialogModifyAlliance extends DialogAddAlliance {
         startField.setEditable(false);
     }
     
+    /**
+     * Az ablak adatainak adatbázisba mentése
+     */
     @Override
     protected void save() {
         

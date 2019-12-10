@@ -1,13 +1,16 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.view.dialog;
 
 import java.awt.FlowLayout;
 import java.time.LocalDate;
 import javax.swing.JPanel;
+
 import spiderweb.entity.Alliance;
 import spiderweb.entity.House;
 import spiderweb.jdbcdao.dbexception.SpiderImageException;
@@ -16,10 +19,11 @@ import spiderweb.jdbcdao.dbexception.SpiderWriteException;
 import spiderweb.view.MainWindow;
 
 /**
- *
- * @author pokemonterkep
+ * Szövetség hozzáadó dialógusablak
+ * 
+ * @author Foltin Csaba Richárd
  */
-public class DialogAddAlliance extends SpiderAddDialog {
+public class DialogAddAlliance extends SpiderDataDialog {
     
     protected SpiderHouseList houseList1;
     protected SpiderHouseList houseList2;
@@ -65,6 +69,10 @@ public class DialogAddAlliance extends SpiderAddDialog {
         endPanel.add(endField);
     }
     
+    /**
+     * Az ablak mezői alapján egy Szövetség entitás létrehozása
+     * @return 
+     */
     protected Alliance collectData() {
         
         House house1 = houseList1.getSelectedHouse();
@@ -97,7 +105,9 @@ public class DialogAddAlliance extends SpiderAddDialog {
         return new Alliance(house1, house2, start_date, end_date);
     }
     
-
+    /**
+     * Az ablak adatainak adatbázisba mentése
+     */
     @Override
     protected void save() {
         
@@ -117,6 +127,11 @@ public class DialogAddAlliance extends SpiderAddDialog {
         window.infoMessage("Alliance added.");
     }
     
+    /**
+     * Az ablakban található ház listában az alapértelmezett ház beállítása
+     * 
+     * @param house 
+     */
     public void setInitialHouse(House house) {
         houseList1.selectHouse(house);
         houseList1.setEnabled(false);

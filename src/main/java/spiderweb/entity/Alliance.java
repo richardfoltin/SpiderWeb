@@ -1,15 +1,19 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ----------------------SpiderWeb----------------------
+ * | Leírás:   Adatbázis alkalmazás Lord Varys számára |
+ * | Tantárgy: ELTE - Programozási Technológia 2.      |
+ * | Szerző:   Foltin Csaba Richárd (I37M02)           |
+ * -----------------------------------------------------
  */
 package spiderweb.entity;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
- *
- * @author pokemonterkep
+ * Szövetség
+ * 
+ * @author Foltin Csaba Richárd
  */
 public class Alliance extends Entity {
     
@@ -52,8 +56,24 @@ public class Alliance extends Entity {
         return endDate;
     }
     
+    /**
+     * Lezárt-e a szövetség?
+     * 
+     * @return true ha van végdátum
+     */
     public boolean isClosed() {
         return endDate != null;
+    }
+    
+    /**
+     * Beállítja a megadott házat (ha van ilyen) az első háznak a szövetségben
+     * @param firstHouse 
+     */
+    public void setFirstHouse(House firstHouse) {
+        if (!Objects.equals(house1.getId(), firstHouse.getId())) {
+            house2 = house1;
+            house1 = firstHouse;
+        }
     }
     
     @Override
