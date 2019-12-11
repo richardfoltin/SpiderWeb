@@ -26,11 +26,11 @@ import spiderweb.jdbcdao.dbexception.*;
 public abstract class JDBCSuperDao<E extends Entity> {
     
     protected final String table;
-    protected final String id;
+    protected final String idColumn;
     
     protected JDBCSuperDao(String table, String id) {
         this.table = table;
-        this.id = id;
+        this.idColumn = id;
     }  
     
     /**
@@ -40,7 +40,7 @@ public abstract class JDBCSuperDao<E extends Entity> {
      * @throws SpiderWriteException 
      */
     protected void delete(Integer key) throws SpiderWriteException {
-        String sql = "DELETE FROM \"ROOT\".\"" + table + "\" WHERE " + id + " = ?";
+        String sql = "DELETE FROM \"ROOT\".\"" + table + "\" WHERE " + idColumn + " = ?";
 
         try (PreparedStatement statement = SpiderWebApp.getConnection().prepareStatement(sql)) {
             statement.setInt(1, key);
@@ -96,7 +96,7 @@ public abstract class JDBCSuperDao<E extends Entity> {
      * @throws SpiderReadException 
      */
     protected E findOneById(Integer key, JDBCEntityCreator<ResultSet, E> creator) throws SpiderReadException {
-        String sql = "SELECT * FROM \"ROOT\".\"" + table + "\" WHERE " + id + " = ?";
+        String sql = "SELECT * FROM \"ROOT\".\"" + table + "\" WHERE " + idColumn + " = ?";
         return findOne(sql, creator, key);
     }
     
@@ -218,7 +218,7 @@ public abstract class JDBCSuperDao<E extends Entity> {
         }
         
         builder.deleteCharAt(builder.length() - 1);
-        builder.append("\n WHERE ").append(id).append(" = ").append(id);
+        builder.append("\n WHERE ").append(idColumn).append(" = ").append(id);
 
         try {
             PreparedStatement statement = SpiderWebApp.getConnection().prepareStatement(builder.toString());

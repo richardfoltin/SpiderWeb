@@ -43,6 +43,7 @@ public class SpiderWebApp {
     public static void main(String[] args) {
         
         app = new SpiderWebApp();
+        recreateDatabase();
         fillInitialData(app.model);
         
         MainWindow window = MainWindow.getInstance();
@@ -52,9 +53,6 @@ public class SpiderWebApp {
     }
     
     private SpiderWebApp() {
-        openConnection();
-        executeScript(DROP_PATH);
-        executeScript(CREATE_PATH);
         model = new SpiderWebModel();
     }
     
@@ -83,7 +81,7 @@ public class SpiderWebApp {
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             con = DriverManager.getConnection(URL, USER , PASSWORD);
-            con.setAutoCommit(false);
+            con.setAutoCommit(true);
             System.out.println("Successfully Connected");
         } catch (SQLException | ClassNotFoundException ex) {
             System.out.println(ex.toString());
@@ -137,11 +135,20 @@ public class SpiderWebApp {
     }
     
     /**
+     * Törli és újra létrehozza az adatbázistáblákat
+     */
+    private static void recreateDatabase() {
+        openConnection();
+        executeScript(DROP_PATH);
+        executeScript(CREATE_PATH);
+    }
+    
+    /**
      * Lefuttat egy SQL scriptet
      * 
      * @param path a script elérési útja
      */
-    private void executeScript(String path) {
+    private static void executeScript(String path) {
         System.out.println("executeScript " + path);
         Scanner scanner = null;
         try {
